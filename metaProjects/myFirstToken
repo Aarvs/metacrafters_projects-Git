@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract myFirstToken{
+
+    // public variables here
+
+    string public tokenName = "OCEAN";
+    string public tokenAbbr = "EAN";
+    uint public totalSupply = 0;
+
+     // mapping variable here
+
+    mapping(address => uint) public yourBalance;
+
+    // event declaration
+
+    event TokensBurned(address indexed burner, uint value);
+
+    // mint function
+
+    function mint(address _address,uint _value) public {
+        totalSupply += _value;
+        yourBalance[_address] += _value;
+    }
+
+    // burn function
+
+    function burn(address _address, uint _value) public {
+        require(yourBalance[_address] >= _value);
+        totalSupply -= _value;
+        yourBalance[_address] -= _value;
+        
+        emit TokensBurned(_address, _value);
+    }
+}
